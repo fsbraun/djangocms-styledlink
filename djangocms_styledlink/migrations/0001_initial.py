@@ -1,105 +1,48 @@
 # -*- coding: utf-8 -*-
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import migrations, models
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'StyledLinkStyle'
-        db.create_table(u'djangocms_styledlink_styledlinkstyle', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('label', self.gf('django.db.models.fields.CharField')(default='', max_length=32)),
-            ('link_class', self.gf('django.db.models.fields.CharField')(default='', max_length=32)),
-        ))
-        db.send_create_signal(u'djangocms_styledlink', ['StyledLinkStyle'])
+    dependencies = [
+        ('cms', '0016_auto_20160608_1535'),
+        ('contenttypes', '0002_remove_content_type_name'),
+    ]
 
-        # Adding model 'StyledLink'
-        db.create_table(u'djangocms_styledlink_styledlink', (
-            (u'cmsplugin_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['cms.CMSPlugin'], unique=True, primary_key=True)),
-            ('label', self.gf('django.db.models.fields.CharField')(default='', max_length=255)),
-            ('title', self.gf('django.db.models.fields.CharField')(default='', max_length=255, blank=True)),
-            ('int_destination_type', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['contenttypes.ContentType'], null=True, blank=True)),
-            ('int_destination_id', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
-            ('page_destination', self.gf('django.db.models.fields.CharField')(max_length=64, blank=True)),
-            ('ext_destination', self.gf('django.db.models.fields.TextField')(default='', blank=True)),
-            ('ext_follow', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('mailto', self.gf('django.db.models.fields.EmailField')(max_length=75, null=True, blank=True)),
-            ('target', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
-        ))
-        db.send_create_signal(u'djangocms_styledlink', ['StyledLink'])
-
-        # Adding M2M table for field styles on 'StyledLink'
-        db.create_table(u'djangocms_styledlink_styledlink_styles', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('styledlink', models.ForeignKey(orm[u'djangocms_styledlink.styledlink'], null=False)),
-            ('styledlinkstyle', models.ForeignKey(orm[u'djangocms_styledlink.styledlinkstyle'], null=False))
-        ))
-        db.create_unique(u'djangocms_styledlink_styledlink_styles', ['styledlink_id', 'styledlinkstyle_id'])
-
-
-    def backwards(self, orm):
-        # Deleting model 'StyledLinkStyle'
-        db.delete_table(u'djangocms_styledlink_styledlinkstyle')
-
-        # Deleting model 'StyledLink'
-        db.delete_table(u'djangocms_styledlink_styledlink')
-
-        # Removing M2M table for field styles on 'StyledLink'
-        db.delete_table('djangocms_styledlink_styledlink_styles')
-
-
-    models = {
-        'cms.cmsplugin': {
-            'Meta': {'object_name': 'CMSPlugin'},
-            'changed_date': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'creation_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'language': ('django.db.models.fields.CharField', [], {'max_length': '15', 'db_index': 'True'}),
-            'level': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'lft': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'parent': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['cms.CMSPlugin']", 'null': 'True', 'blank': 'True'}),
-            'placeholder': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['cms.Placeholder']", 'null': 'True'}),
-            'plugin_type': ('django.db.models.fields.CharField', [], {'max_length': '50', 'db_index': 'True'}),
-            'position': ('django.db.models.fields.PositiveSmallIntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'})
-        },
-        'cms.placeholder': {
-            'Meta': {'object_name': 'Placeholder'},
-            'default_width': ('django.db.models.fields.PositiveSmallIntegerField', [], {'null': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'slot': ('django.db.models.fields.CharField', [], {'max_length': '50', 'db_index': 'True'})
-        },
-        u'contenttypes.contenttype': {
-            'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
-            'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        u'djangocms_styledlink.styledlink': {
-            'Meta': {'object_name': 'StyledLink', 'db_table': "u'djangocms_styledlink_styledlink'", '_ormbases': ['cms.CMSPlugin']},
-            u'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
-            'ext_destination': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
-            'ext_follow': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'int_destination_id': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'int_destination_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['contenttypes.ContentType']", 'null': 'True', 'blank': 'True'}),
-            'label': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255'}),
-            'mailto': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'null': 'True', 'blank': 'True'}),
-            'page_destination': ('django.db.models.fields.CharField', [], {'max_length': '64', 'blank': 'True'}),
-            'styles': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'styled_link_style'", 'default': '1', 'to': u"orm['djangocms_styledlink.StyledLinkStyle']", 'blank': 'True', 'symmetrical': 'False', 'null': 'True'}),
-            'target': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'blank': 'True'})
-        },
-        u'djangocms_styledlink.styledlinkstyle': {
-            'Meta': {'object_name': 'StyledLinkStyle'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'label': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '32'}),
-            'link_class': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '32'})
-        }
-    }
-
-    complete_apps = ['djangocms_styledlink']
+    operations = [
+        migrations.CreateModel(
+            name='StyledLink',
+            fields=[
+                ('cmsplugin_ptr', models.OneToOneField(to='cms.CMSPlugin', primary_key=True, auto_created=True, related_name='djangocms_styledlink_styledlink', parent_link=True, serialize=False)),
+                ('label', models.CharField(help_text='Required. The text that is linked.', verbose_name='link text', default='', blank=True, max_length=255)),
+                ('title', models.CharField(help_text='Optional. If provided, will provide a tooltip for the link.', verbose_name='title', default='', blank=True, max_length=255)),
+                ('int_destination_id', models.PositiveIntegerField(null=True, blank=True)),
+                ('page_destination', models.CharField(help_text='Use this to specify an intra-page link. Can be used for the <em>current page</em> or with a specific internal destination. Do <strong>not</strong> include a leading “#”.', verbose_name='intra-page destination', blank=True, max_length=64)),
+                ('int_hash', models.BooleanField(default=False)),
+                ('ext_destination', models.TextField(verbose_name='external destination', default='', blank=True)),
+                ('ext_follow', models.BooleanField(verbose_name='follow external link?', default=True, help_text='Let search engines follow this hyperlink?')),
+                ('mailto', models.EmailField(null=True, verbose_name='email address', help_text='An email address. This will override an external url.', blank=True, max_length=254)),
+                ('target', models.CharField(verbose_name='target', default='', blank=True, max_length=100, choices=[('', 'same window'), ('_blank', 'new window'), ('_parent', 'parent window'), ('_top', 'topmost frame')], help_text='Optional. Specify if this link should open in a new tab or window.')),
+                ('int_destination_type', models.ForeignKey(null=True, to='contenttypes.ContentType', blank=True)),
+            ],
+            options={
+                'abstract': False,
+            },
+            bases=('cms.cmsplugin',),
+        ),
+        migrations.CreateModel(
+            name='StyledLinkStyle',
+            fields=[
+                ('id', models.AutoField(auto_created=True, verbose_name='ID', serialize=False, primary_key=True)),
+                ('label', models.CharField(help_text='The internal name of this link style.', verbose_name='label', default='', max_length=32)),
+                ('link_class', models.CharField(help_text='The class to add to this link (do NOT preceed with a ".").', verbose_name='link class', default='', max_length=32)),
+            ],
+        ),
+        migrations.AddField(
+            model_name='styledlink',
+            name='styles',
+            field=models.ManyToManyField(to='djangocms_styledlink.StyledLinkStyle', verbose_name='link style', default=None, blank=True, related_name='styled_link_style', help_text='Optional. Choose one or more styles for this link.'),
+        ),
+    ]
