@@ -64,7 +64,7 @@ for model in DJANGOCMS_STYLEDLINK_MODELS:
     if 'filter' in model:
         for field in model['filter']:
             try:
-                cls._meta.get_field_by_name(field.split('__')[0])
+                cls._meta.get_field(field.split('__')[0])
             except models.FieldDoesNotExist:
                 warnings.warn('StyledLink: Defined filter expression refers to a field (%s) in model %s that do not appear to exist. Skipping...' % (field, model['class_path'], ), SyntaxWarning)
                 ok = False
