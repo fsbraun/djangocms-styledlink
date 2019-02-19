@@ -142,6 +142,7 @@ class StyledLink(CMSPlugin):
     int_destination_type = models.ForeignKey(ContentType,
         null=True,
         blank=True,
+        on_delete=models.CASCADE,
         limit_choices_to={"model__in": [ model['_cls_name'] for model in STYLEDLINK_MODELS ]},
     )
 
