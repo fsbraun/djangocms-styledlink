@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                 ('ext_follow', models.BooleanField(verbose_name='follow external link?', default=True, help_text='Let search engines follow this hyperlink?')),
                 ('mailto', models.EmailField(null=True, verbose_name='email address', help_text='An email address. This will override an external url.', blank=True, max_length=254)),
                 ('target', models.CharField(verbose_name='target', default='', blank=True, max_length=100, choices=[('', 'same window'), ('_blank', 'new window'), ('_parent', 'parent window'), ('_top', 'topmost frame')], help_text='Optional. Specify if this link should open in a new tab or window.')),
-                ('int_destination_type', models.ForeignKey(null=True, to='contenttypes.ContentType', blank=True)),
+                ('int_destination_type', models.ForeignKey(null=True, to='contenttypes.ContentType', blank=True,on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,
