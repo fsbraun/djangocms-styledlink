@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='StyledLink',
             fields=[
-                ('cmsplugin_ptr', models.OneToOneField(to='cms.CMSPlugin', primary_key=True, auto_created=True, related_name='djangocms_styledlink_styledlink', parent_link=True, serialize=False)),
+                ('cmsplugin_ptr', models.OneToOneField(to='cms.CMSPlugin', primary_key=True, auto_created=True, related_name='djangocms_styledlink_styledlink', parent_link=True, serialize=False,on_delete=models.CASCADE)),
                 ('label', models.CharField(help_text='Required. The text that is linked.', verbose_name='link text', default='', blank=True, max_length=255)),
                 ('title', models.CharField(help_text='Optional. If provided, will provide a tooltip for the link.', verbose_name='title', default='', blank=True, max_length=255)),
                 ('int_destination_id', models.PositiveIntegerField(null=True, blank=True)),
