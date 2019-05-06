@@ -258,7 +258,7 @@ class StyledLink(CMSPlugin):
 
 
     def copy_relations(self, oldinstance):
-        self.styles = oldinstance.styles.all()
+        self.styles.set(oldinstance.styles.all())
 
 
     def __str__(self):
