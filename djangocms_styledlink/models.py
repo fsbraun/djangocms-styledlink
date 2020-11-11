@@ -15,7 +15,6 @@ except ImportError:
 
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 try:
     from django.utils.encoding import force_text
 except ImportError:
@@ -98,7 +97,6 @@ for model in DJANGOCMS_STYLEDLINK_MODELS:
     STYLEDLINK_MODELS.append(model)
 
 
-@python_2_unicode_compatible
 class StyledLinkStyle(models.Model):
 
     label = models.CharField(_('label'),
@@ -118,7 +116,6 @@ class StyledLinkStyle(models.Model):
         return self.label
 
 
-@python_2_unicode_compatible
 class StyledLink(CMSPlugin):
 
     """
